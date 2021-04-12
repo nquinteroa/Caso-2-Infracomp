@@ -27,16 +27,36 @@ public class Main {
 		iniciarMatriz();
 		iniciarSeguimientoPaginas();
 		Envejecimiento e=new Envejecimiento(matriz, seguimientoPaginas, paginas, marcosDePaginas, cantidadPaginas);
-	
-		/*for(int i=0;i<marcosDePaginas;i++)
+		Referencia r=new Referencia(matriz, seguimientoPaginas, paginas, marcosDePaginas, cantidadPaginas);
+		r.start();
+		
+		for(int i=0;i<marcosDePaginas;i++)
 		{
 			System.out.println(" ");
 			System.out.print(i+"|");
 			for(int j=0;j<paginas.size();j++)
 			{
-				System.out.print("  "+matriz[i][j]);
+				if(matriz[i][j]==0 || matriz[i][j]==1 || matriz[i][j]==2 || matriz[i][j]==3 || matriz[i][j]==4
+						|| matriz[i][j]==5 || matriz[i][j]==6 || matriz[i][j]==7 || matriz[i][j]==8 || matriz[i][j]==9){
+					System.out.print("  0"+matriz[i][j]);
+				}
+				else
+				{
+					System.out.print("  "+matriz[i][j]);
+				}
 			}
-		}*/
+		}
+		System.out.println(" ");
+		
+		
+		for(int i=0;i<seguimientoPaginas.length;i++)
+		{
+			System.out.println("Pagina numero "+i+" : "+seguimientoPaginas[i]);
+		}
+		
+		System.out.println("Numero de fallas: "+r.darFallas());
+		
+		System.out.println("Dar Xd: "+r.darXd());
 		/*LRU lru=new LRU();
 		lru.setCantidadPaginas(cantidadPaginas);
 		lru.setCantidadFrames(marcosDePaginas);
@@ -48,7 +68,7 @@ public class Main {
 			BufferedReader br=new BufferedReader(new FileReader(RUTA_ARCHIVO));
 			marcosDePaginas=Integer.parseInt(br.readLine());
 			System.out.println(marcosDePaginas);
-			cantidadPaginas=Integer.parseInt(br.readLine());
+			cantidadPaginas=Integer.parseInt(br.readLine())+1;
 			System.out.println(cantidadPaginas);
 			nivelLocalidad=Double.parseDouble(br.readLine());
 			System.out.println(nivelLocalidad);
