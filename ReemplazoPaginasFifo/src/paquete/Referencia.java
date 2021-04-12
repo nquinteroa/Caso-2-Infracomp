@@ -68,6 +68,8 @@ public class Referencia extends Thread {
 				}
 			}
 			matriz.aumentarIteracion();
+//			System.out.println(matriz.darUltimaIteracion()-1+"-");
+//			System.out.println(ordenPaginas.size()-1+"*");
 		}
 	}
 

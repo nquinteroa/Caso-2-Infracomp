@@ -21,7 +21,7 @@ public class Envejecimiento extends Thread {
 
 	public void run()
 	{
-		while(iteracion!=ordenPaginas.size()-1)
+		while(matriz.darUltimaIteracion()<ordenPaginas.size())
 		{
 			Envejecer();
 		}
@@ -45,7 +45,8 @@ public class Envejecimiento extends Thread {
 				iteracion=columna;
 				int menor = buscarMenor(columna); // Busca el valor menor a reemplazar de la tabla.
 				matriz.modificarNumero(menor, columna, ordenPaginas.get(columna)); // Lo reemplaza.
-				agregarBitsDeReferencia(matriz.retornarNumero(menor, columna)); // Se hace referencia binaria
+				agregarBitsDeReferencia(matriz.retornarNumero(menor, columna)); // Se hace referencia binaria				
+//				System.out.println(iteracion);
 				matriz.notify();
 			}
 		} catch (InterruptedException e) {

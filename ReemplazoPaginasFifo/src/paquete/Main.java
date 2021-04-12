@@ -6,7 +6,7 @@ import java.util.ArrayList;
 
 public class Main {
 
-	private final static String RUTA_ARCHIVO = "./data/referencias4_16.txt";
+	private final static String RUTA_ARCHIVO = "./data/referencias3.txt";
 	private static int cantidadPaginas, marcosDePaginas;
 	private static double nivelLocalidad;
 	private static ArrayList<Integer> paginas = new ArrayList<Integer>();
@@ -60,15 +60,15 @@ public class Main {
 		}
 
 		System.out.println("Numero de fallas: " + r.darFallas());
-		/*
-		 * LRU lru=new LRU(); lru.setCantidadPaginas(cantidadPaginas);
-		 * lru.setCantidadFrames(marcosDePaginas); lru.setPaginas(paginas); lru.lru();
-		 */
+		
+		limpiar();
+		
 	}
 
 	private static void cargarArchivo() {
 		try {
-			BufferedReader br = new BufferedReader(new FileReader(RUTA_ARCHIVO));
+			FileReader fr=new FileReader(RUTA_ARCHIVO);
+			BufferedReader br = new BufferedReader(fr);
 			marcosDePaginas = Integer.parseInt(br.readLine());
 			System.out.println(marcosDePaginas);
 			cantidadPaginas = Integer.parseInt(br.readLine()) + 1;
@@ -80,6 +80,7 @@ public class Main {
 				paginas.add(Integer.parseInt(pagina));
 				pagina = br.readLine();
 			}
+			fr.close();
 			br.close();
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -90,5 +91,12 @@ public class Main {
 		for (int i = 0; i < seguimientoPaginas.length; i++) {
 			seguimientoPaginas[i] = "000000000000000000000000000000";
 		}
+	}
+	
+	public static void limpiar()
+	{
+		matriz=new Matriz(0,0);
+		paginas.clear();
+		seguimientoPaginas=new String[0];
 	}
 }
