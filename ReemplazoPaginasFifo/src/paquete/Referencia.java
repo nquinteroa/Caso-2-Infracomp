@@ -25,6 +25,7 @@ public class Referencia extends Thread{
 	}
 	public int buscarEspacio(int i2)
 	{
+		//Busca en que marco de la iteracion hay un espacio libre - i2 es la iteracion
 		int marcoDisponible=-2;
 		for(int j=0;j<numDePaginas;j++)
 		{
