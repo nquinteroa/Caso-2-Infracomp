@@ -4,23 +4,29 @@ import java.util.ArrayList;
 
 public class Envejecimiento extends Thread {
 
-	private int[][] matriz;
+	private Matriz matriz;
 	private String[] seguimiento;
 	private ArrayList<Integer> ordenPaginas;
 	private int marcosDePagina;
-	private int numDePaginas;
-	private Referencia ref;
-
-	public Envejecimiento(int[][] matriz, String[] seguimiento, ArrayList<Integer> ordenPaginas, int marcos,
-			int numPaginas) {
+	private int iteracion;
+	
+	
+	public Envejecimiento(Matriz matriz, String[] seguimiento, ArrayList<Integer> ordenPaginas, int marcos,
+			int numPaginas, Referencia ref) {
 		this.matriz = matriz;
 		this.seguimiento = seguimiento;
 		this.ordenPaginas = ordenPaginas;
 		this.marcosDePagina = marcos;
-		this.numDePaginas = numPaginas;
-		this.ref = ref;
 	}
 
+	public void run()
+	{
+		while(iteracion!=ordenPaginas.size()-1)
+		{
+			Envejecer();
+		}
+	}
+	
 	/**
 	 * Agrega una nueva pagina a la tabla de paginas cuando esta llena.
 	 * 
@@ -30,11 +36,22 @@ public class Envejecimiento extends Thread {
 	 * @param paginas
 	 * @param fila        // la fila de la referencias de la tabla de paginas
 	 */
-	public synchronized void Envejecer(int columna) {
-		int menor = buscarMenor(columna); // Busca el valor menor a reemplazar de la tabla.
-		matriz[menor][columna] = ordenPaginas.get(columna); // Lo reemplaza.
-		agregarBitsDeReferencia(matriz[menor][columna]); // Se hace referencia binaria
-
+	public void Envejecer() {
+		try {
+			synchronized(matriz)
+			{
+				matriz.wait();	
+				int columna=matriz.darUltimaIteracion();
+				iteracion=columna;
+				int menor = buscarMenor(columna); // Busca el valor menor a reemplazar de la tabla.
+				matriz.modificarNumero(menor, columna, ordenPaginas.get(columna)); // Lo reemplaza.
+				agregarBitsDeReferencia(matriz.retornarNumero(menor, columna)); // Se hace referencia binaria
+				matriz.notify();
+			}
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	public void agregarBitsDeReferencia(int numeroPaginaReferenciada) {
@@ -58,13 +75,13 @@ public class Envejecimiento extends Thread {
 	 *         de paginas esta llena.
 	 */
 	public int buscarMenor(int columna) {
-		int pagina = matriz[0][columna];
+		int pagina = matriz.retornarNumero(0, columna);
 		int fila = 0;
-
 		String menor = seguimiento[pagina];
 		for (int j = 1; j < marcosDePagina; j++) {
-			if (menor.compareTo(seguimiento[matriz[j][columna]]) == 1) {
-				menor = seguimiento[matriz[j][columna]];
+			int pagina2 = matriz.retornarNumero(j, columna);
+			if (menor.compareTo(seguimiento[pagina2]) == 1) {
+				menor = seguimiento[matriz.retornarNumero(j, columna)];
 				fila = j;
 			}
 		}

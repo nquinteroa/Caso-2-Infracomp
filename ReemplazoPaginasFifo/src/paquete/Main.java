@@ -6,24 +6,31 @@ import java.util.ArrayList;
 
 public class Main {
 
-	private final static String RUTA_ARCHIVO = "./data/referencia4_16.txt";
+	private final static String RUTA_ARCHIVO = "./data/referencias4_16.txt";
 	private static int cantidadPaginas, marcosDePaginas;
 	private static double nivelLocalidad;
-	private static ArrayList<Integer> paginas = new ArrayList();
-	private static int[][] matriz;
+	private static ArrayList<Integer> paginas = new ArrayList<Integer>();
+	private static Matriz matriz;
 	private static String[] seguimientoPaginas;
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		cargarArchivo();
-		matriz = new int[marcosDePaginas][paginas.size()];
+		matriz = new Matriz(marcosDePaginas, paginas.size());
 		seguimientoPaginas = new String[cantidadPaginas];
-		iniciarMatriz();
 		iniciarSeguimientoPaginas();
 
-		Envejecimiento e = new Envejecimiento(matriz, seguimientoPaginas, paginas, marcosDePaginas, cantidadPaginas);
-		Referencia r = new Referencia(matriz, seguimientoPaginas, paginas, marcosDePaginas, cantidadPaginas, e);
+		Referencia r = new Referencia(matriz, seguimientoPaginas, paginas, marcosDePaginas, cantidadPaginas);
+		Envejecimiento e = new Envejecimiento(matriz, seguimientoPaginas, paginas, marcosDePaginas, cantidadPaginas, r);
 
+		
+		e.start();
+		try {
+			Thread.sleep(500);
+		} catch (InterruptedException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
 		r.start();
 		try {
 			Thread.sleep(500);
@@ -35,12 +42,14 @@ public class Main {
 			System.out.println(" ");
 			System.out.print(i + "|");
 			for (int j = 0; j < paginas.size(); j++) {
-				if (matriz[i][j] == 0 || matriz[i][j] == 1 || matriz[i][j] == 2 || matriz[i][j] == 3
-						|| matriz[i][j] == 4 || matriz[i][j] == 5 || matriz[i][j] == 6 || matriz[i][j] == 7
-						|| matriz[i][j] == 8 || matriz[i][j] == 9) {
-					System.out.print("  0" + matriz[i][j]);
+				if (matriz.retornarNumero(i, j) == 0 || matriz.retornarNumero(i, j) == 1 || 
+						matriz.retornarNumero(i, j) == 2 || matriz.retornarNumero(i, j)== 3
+						||matriz.retornarNumero(i, j) == 4 || matriz.retornarNumero(i, j) == 5 ||
+								matriz.retornarNumero(i, j) == 6 ||matriz.retornarNumero(i, j)== 7
+						|| matriz.retornarNumero(i, j) == 8 || matriz.retornarNumero(i, j)== 9) {
+					System.out.print("  0" + matriz.retornarNumero(i, j));
 				} else {
-					System.out.print("  " + matriz[i][j]);
+					System.out.print("  " + matriz.retornarNumero(i, j));
 				}
 			}
 		}
@@ -51,8 +60,6 @@ public class Main {
 		}
 
 		System.out.println("Numero de fallas: " + r.darFallas());
-
-		System.out.println("Dar Xd: " + r.darXd());
 		/*
 		 * LRU lru=new LRU(); lru.setCantidadPaginas(cantidadPaginas);
 		 * lru.setCantidadFrames(marcosDePaginas); lru.setPaginas(paginas); lru.lru();
@@ -73,16 +80,9 @@ public class Main {
 				paginas.add(Integer.parseInt(pagina));
 				pagina = br.readLine();
 			}
+			br.close();
 		} catch (Exception e) {
 			e.printStackTrace();
-		}
-	}
-
-	private static void iniciarMatriz() {
-		for (int i = 0; i < marcosDePaginas; i++) {
-			for (int j = 0; j < paginas.size(); j++) {
-				matriz[i][j] = -1;
-			}
 		}
 	}
 
