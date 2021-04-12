@@ -8,6 +8,7 @@ import java.util.Iterator;
 import java.util.Properties;
 
 import javax.swing.JOptionPane;
+import javax.swing.text.AbstractDocument.LeafElement;
 
 public class Main {
 	
@@ -15,20 +16,30 @@ public class Main {
 	private static int cantidadPaginas,marcosDePaginas;
 	private static double nivelLocalidad;
 	private static ArrayList<Integer> paginas=new ArrayList();
+	private static int[][] matriz;
+	private static String[] seguimientoPaginas;
 	
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		cargarArchivo();
-
-		/*Fifo fifo=new Fifo();
-		fifo.setCantidadFrames(cantidadFrames);
-		fifo.setCantidadPaginas(cantidadPaginas);
-		fifo.setPaginas(paginas);
-		fifo.fifo();*/
-		
+		matriz=new int[marcosDePaginas][paginas.size()];
+		seguimientoPaginas=new String[cantidadPaginas];
+		iniciarMatriz();
+		iniciarSeguimientoPaginas();
+		Envejecimiento e=new Envejecimiento(matriz, seguimientoPaginas, paginas, marcosDePaginas, cantidadPaginas);
+	
+		/*for(int i=0;i<marcosDePaginas;i++)
+		{
+			System.out.println(" ");
+			System.out.print(i+"|");
+			for(int j=0;j<paginas.size();j++)
+			{
+				System.out.print("  "+matriz[i][j]);
+			}
+		}*/
 		/*LRU lru=new LRU();
 		lru.setCantidadPaginas(cantidadPaginas);
-		lru.setCantidadFrames(cantidadFrames);
+		lru.setCantidadFrames(marcosDePaginas);
 		lru.setPaginas(paginas);
 		lru.lru();*/
 	}
@@ -52,5 +63,16 @@ public class Main {
 			e.printStackTrace();
 		}
 	}
-
+	private static void iniciarMatriz(){
+		for(int i=0;i<marcosDePaginas;i++){
+			for(int j=0;j<paginas.size();j++){
+				matriz[i][j]=-1;
+			}
+		}
+	}
+	private static void iniciarSeguimientoPaginas(){
+		for(int i=0;i<seguimientoPaginas.length;i++){
+				seguimientoPaginas[i]="000000000000000000000000000000";
+			}
+		}
 }
