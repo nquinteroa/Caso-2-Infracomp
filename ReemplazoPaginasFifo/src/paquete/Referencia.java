@@ -14,7 +14,8 @@ public class Referencia extends Thread {
 	private int Xd;
 	private Envejecimiento env;
 
-	public Referencia(Matriz matriz, String[] seguimiento, ArrayList<Integer> ordenPaginas, int marcos, int numPaginas) {
+	public Referencia(Matriz matriz, String[] seguimiento, ArrayList<Integer> ordenPaginas, int marcos,
+			int numPaginas) {
 		this.matriz = matriz;
 		this.seguimiento = seguimiento;
 		this.ordenPaginas = ordenPaginas;
@@ -31,7 +32,7 @@ public class Referencia extends Thread {
 		cargarNuevaReferencia();
 	}
 
-	public  void cargarNuevaReferencia() {
+	public void cargarNuevaReferencia() {
 		// i es la columna donde nos pararemos - indica la iteracion en el array de
 		// paginas
 		int i = 0;
@@ -40,7 +41,8 @@ public class Referencia extends Thread {
 			if (marcoDisponible >= 0) // si hay marco disponible
 			{
 				if (!buscarActual(i, ordenPaginas.get(i))) {
-					matriz.modificarNumero(marcoDisponible, i, ordenPaginas.get(i)); // Se pone en el marco correspondiente el nï¿½mero
+					matriz.modificarNumero(marcoDisponible, i, ordenPaginas.get(i)); // Se pone en el marco
+																						// correspondiente el nï¿½mero
 					agregarBitsDeReferencia(ordenPaginas.get(i));
 					generarFalla(); // cuando se empiezan a llenar los espacios se consideran como fallas
 					generarSiguienteColumna(i);
@@ -49,9 +51,8 @@ public class Referencia extends Thread {
 					generarSiguienteColumna(i);
 				}
 
-			}else {
-				synchronized(matriz)
-				{
+			} else {
+				synchronized (matriz) {
 					if (!buscarActual(i, ordenPaginas.get(i))) {
 						matriz.notify();
 						try {
@@ -62,7 +63,7 @@ public class Referencia extends Thread {
 						}
 						generarFalla();
 						generarSiguienteColumna(i);
-					}else {
+					} else {
 						generarSiguienteColumna(i);
 					}
 				}
@@ -90,12 +91,13 @@ public class Referencia extends Thread {
 	}
 
 	/*
-	 * Retorna un boolean que dice si la página en la lista ordenPaginas ya esta en la matriz
+	 * Retorna un boolean que dice si la página en la lista ordenPaginas ya esta en
+	 * la matriz
 	 */
 	public boolean buscarActual(int columna, int pagina) {
 		boolean rta = false;
 		for (int i = 0; i < marcosDePagina; i++) {
-			if (matriz.retornarNumero(i, columna)== pagina) {
+			if (matriz.retornarNumero(i, columna) == pagina) {
 				rta = true;
 			}
 		}
@@ -104,9 +106,8 @@ public class Referencia extends Thread {
 
 	public void generarSiguienteColumna(int iteracion) {
 		for (int i = 0; i < marcosDePagina; i++) {
-			if(iteracion!=ordenPaginas.size()-1)
-			{
-				matriz.modificarNumero(i, iteracion +1, matriz.retornarNumero(i, iteracion));
+			if (iteracion != ordenPaginas.size() - 1) {
+				matriz.modificarNumero(i, iteracion + 1, matriz.retornarNumero(i, iteracion));
 			}
 		}
 	}
