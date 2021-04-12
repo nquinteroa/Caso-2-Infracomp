@@ -6,7 +6,7 @@ import java.util.ArrayList;
 
 public class Main {
 
-	private final static String RUTA_ARCHIVO = "./data/referencias4_16.txt";
+	private final static String RUTA_ARCHIVO = "./data/referencias4.txt";
 	private static int cantidadPaginas, marcosDePaginas;
 	private static double nivelLocalidad;
 	private static ArrayList<Integer> paginas = new ArrayList<Integer>();
@@ -23,7 +23,6 @@ public class Main {
 		Referencia r = new Referencia(matriz, seguimientoPaginas, paginas, marcosDePaginas, cantidadPaginas);
 		Envejecimiento e = new Envejecimiento(matriz, seguimientoPaginas, paginas, marcosDePaginas, cantidadPaginas, r);
 
-		
 		e.start();
 		try {
 			Thread.sleep(500);
@@ -42,11 +41,11 @@ public class Main {
 			System.out.println(" ");
 			System.out.print(i + "|");
 			for (int j = 0; j < paginas.size(); j++) {
-				if (matriz.retornarNumero(i, j) == 0 || matriz.retornarNumero(i, j) == 1 || 
-						matriz.retornarNumero(i, j) == 2 || matriz.retornarNumero(i, j)== 3
-						||matriz.retornarNumero(i, j) == 4 || matriz.retornarNumero(i, j) == 5 ||
-								matriz.retornarNumero(i, j) == 6 ||matriz.retornarNumero(i, j)== 7
-						|| matriz.retornarNumero(i, j) == 8 || matriz.retornarNumero(i, j)== 9) {
+				if (matriz.retornarNumero(i, j) == 0 || matriz.retornarNumero(i, j) == 1
+						|| matriz.retornarNumero(i, j) == 2 || matriz.retornarNumero(i, j) == 3
+						|| matriz.retornarNumero(i, j) == 4 || matriz.retornarNumero(i, j) == 5
+						|| matriz.retornarNumero(i, j) == 6 || matriz.retornarNumero(i, j) == 7
+						|| matriz.retornarNumero(i, j) == 8 || matriz.retornarNumero(i, j) == 9) {
 					System.out.print("  0" + matriz.retornarNumero(i, j));
 				} else {
 					System.out.print("  " + matriz.retornarNumero(i, j));
@@ -64,6 +63,7 @@ public class Main {
 		 * LRU lru=new LRU(); lru.setCantidadPaginas(cantidadPaginas);
 		 * lru.setCantidadFrames(marcosDePaginas); lru.setPaginas(paginas); lru.lru();
 		 */
+		e.stop();
 	}
 
 	private static void cargarArchivo() {
